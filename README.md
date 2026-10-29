@@ -1,8 +1,8 @@
-# 🐶 EdadCanina · Versión 2
+#  EdadCaninaV2
 
-Esta app calcula cuántos años tendría un perro si fuera una persona. Para eso multiplica su edad por 7.
+Esta App Android calcula cuántos años tendría un perro si fuera una persona. Para eso multiplica su edad por 7.
 
-**Autor:** Francisco Javier Saravia Ogazón
+**Javier Saravia Ogazón**  
 
 ## Qué fallaba en la versión 1
 
