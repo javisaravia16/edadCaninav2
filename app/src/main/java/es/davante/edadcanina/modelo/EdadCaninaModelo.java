@@ -94,6 +94,14 @@ public class EdadCaninaModelo extends BaseObservable {
             return terminar(Validacion.VACIO, 0);
         }
 
+        // Reto "casos raros": parseInt acepta "+5" y lo convierte en 5, pero nadie
+        // escribe así una edad y el teclado numérico ni deja poner el "+".
+        // Decido que no es válido. Con "05" hago lo contrario: es el 5 de siempre,
+        // así que lo dejo pasar (parseInt ya lo entiende).
+        if (texto.startsWith("+")) {
+            return terminar(Validacion.NO_ES_NUMERO, 0);
+        }
+
         // parseInt lanza NumberFormatException con letras, decimales o números
         // demasiado grandes; la capturo para que la app no se cierre
         int edadPerro;

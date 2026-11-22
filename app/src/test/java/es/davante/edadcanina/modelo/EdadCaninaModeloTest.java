@@ -229,4 +229,29 @@ public class EdadCaninaModeloTest {
 
         assertEquals(Validacion.SIN_CALCULAR, modelo.getValidacion());
     }
+
+    // ---- Reto: casos raros ----
+
+    @Test
+    public void cerosPorDelante_seInterpretanComoElNumero() {
+        modelo.setEdadTexto("05"); // decisión: vale, es el 5
+
+        assertEquals(Validacion.OK, modelo.calcular());
+        assertEquals(35, modelo.getEdadHumana());
+    }
+
+    @Test
+    public void dosCeros_esElCeroYEstaFueraDeRango() {
+        modelo.setEdadTexto("00");
+
+        assertEquals(Validacion.FUERA_DE_RANGO, modelo.calcular());
+    }
+
+    @Test
+    public void signoMas_noEsUnNumeroValido() {
+        modelo.setEdadTexto("+5"); // decisión: no vale
+
+        assertEquals(Validacion.NO_ES_NUMERO, modelo.calcular());
+        assertEquals(0, modelo.getEdadHumana());
+    }
 }
