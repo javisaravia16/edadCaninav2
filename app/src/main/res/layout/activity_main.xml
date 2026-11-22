@@ -12,6 +12,9 @@
         <variable
             name="modelo"
             type="es.davante.edadcanina.modelo.EdadCaninaModelo" />
+        <variable
+            name="controlador"
+            type="es.davante.edadcanina.controlador.EdadCaninaControlador" />
     </data>
 
 <androidx.appcompat.widget.LinearLayoutCompat
@@ -80,14 +83,36 @@
     <!-- INVISIBLE y no GONE: así el hueco se queda y el botón no salta de sitio
          cuando aparece o desaparece el resultado -->
 
-    <Button
+    <!-- Los dos botones uno al lado del otro: orientation horizontal y
+         layout_weight 1 con width 0dp para que se repartan el ancho a partes iguales -->
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/btn_calc"
-        android:textSize="22sp"
-        android:id="@+id/btn_calc"
-        />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_calc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="@string/btn_calc"
+            android:textSize="22sp"
+            android:onClick="@{() -> controlador.onCalcularClick()}"
+            />
+
+        <Button
+            android:id="@+id/btn_limpiar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/btn_limpiar"
+            android:textSize="22sp"
+            android:onClick="@{() -> controlador.onLimpiarClick()}"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

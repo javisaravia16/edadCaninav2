@@ -110,6 +110,20 @@ public class EdadCaninaModelo extends BaseObservable {
         return terminar(Validacion.OK, edadPerro * FACTOR_CANINO);
     }
 
+    /**
+     * Deja el modelo como nuevo: sin texto, sin resultado y sin error.
+     * Es una operación del modelo porque cambia sus datos; el controlador solo
+     * la pide.
+     */
+    public void limpiar() {
+        setEdadTexto("");
+        // Si el texto ya estaba vacío (por ejemplo, tras un error de "campo vacío")
+        // setEdadTexto no hace nada, así que reinicio también aquí el resultado
+        // y el error; si no, el mensaje se quedaría en pantalla.
+        setEdadHumana(0);
+        setValidacion(Validacion.SIN_CALCULAR);
+    }
+
     // Deja guardado el resultado del cálculo. Si hay error la edad es 0, así
     // nunca queda un resultado antiguo junto a un error.
     private Validacion terminar(Validacion resultado, int edad) {

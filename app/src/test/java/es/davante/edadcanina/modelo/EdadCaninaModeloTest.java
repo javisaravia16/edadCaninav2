@@ -205,4 +205,28 @@ public class EdadCaninaModeloTest {
 
         assertTrue(avisos.isEmpty());
     }
+
+    // ---- limpiar() ----
+
+    @Test
+    public void limpiar_dejaElModeloComoNuevo() {
+        modelo.setEdadTexto("6");
+        modelo.calcular();
+
+        modelo.limpiar();
+
+        assertEquals("", modelo.getEdadTexto());
+        assertEquals(0, modelo.getEdadHumana());
+        assertEquals(Validacion.SIN_CALCULAR, modelo.getValidacion());
+    }
+
+    @Test
+    public void limpiar_quitaElErrorAunqueElTextoYaEstuvieraVacio() {
+        modelo.calcular(); // campo vacío: validacion = VACIO
+        assertEquals(Validacion.VACIO, modelo.getValidacion());
+
+        modelo.limpiar();
+
+        assertEquals(Validacion.SIN_CALCULAR, modelo.getValidacion());
+    }
 }
