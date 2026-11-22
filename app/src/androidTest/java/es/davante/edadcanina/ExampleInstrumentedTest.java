@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("es.davante.edadcanina", appContext.getPackageName());
+        assertEquals("es.davante.edadcanina.mvc", appContext.getPackageName());
     }
 }
