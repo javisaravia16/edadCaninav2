@@ -5,6 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <!-- Los import son para poder usar View y Validacion dentro de las expresiones -->
+        <import type="android.view.View" />
+        <import type="es.davante.edadcanina.modelo.Validacion" />
+        <variable
+            name="modelo"
+            type="es.davante.edadcanina.modelo.EdadCaninaModelo" />
+    </data>
+
 <androidx.appcompat.widget.LinearLayoutCompat
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -50,6 +59,7 @@
         android:textSize="48sp"
         android:hint="@string/hint_edad"
         android:id="@+id/age_input"
+        android:text="@={modelo.edadTexto}"
         android:inputType="number"
         android:maxLength="2"
         android:gravity="center"
@@ -63,7 +73,11 @@
      android:gravity="center"
      android:layout_marginTop="20dp"
      android:id="@+id/result_text"
+     android:text="@{@string/tu_edad_format(modelo.edadHumana)}"
+     android:visibility="@{modelo.validacion == Validacion.OK ? View.VISIBLE : View.INVISIBLE}"
      />
+    <!-- INVISIBLE y no GONE: así el hueco se queda y el botón no salta de sitio
+         cuando aparece o desaparece el resultado -->
 
     <Button
         android:layout_width="match_parent"

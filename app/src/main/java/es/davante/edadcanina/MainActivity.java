@@ -29,14 +29,17 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         modelo = new EdadCaninaModelo();
 
+        // Entrego el modelo a la vista: desde aquí el XML lee y escribe en él
+        binding.setModelo(modelo);
+
         // Al pulsar el botón se calcula la edad
         binding.btnCalc.setOnClickListener(view -> calcularEdad());
     }
 
     private void calcularEdad() {
-        // La Activity ya no valida ni calcula: le pasa el texto al modelo, le pide
-        // que calcule y pinta lo que le devuelve
-        modelo.setEdadTexto(binding.ageInput.getText().toString());
+        // El texto ya llega solo al modelo (@={modelo.edadTexto}), así que no hace
+        // falta leer el campo: solo le pido al modelo que calcule. El resultado
+        // se pinta solo; el error, de momento, lo sigo pintando a mano.
         Validacion resultado = modelo.calcular();
 
         // Los mensajes los pongo aquí (y no en el modelo) porque usan getString,
@@ -44,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
         switch (resultado) {
             case OK:
                 binding.ageInput.setError(null);
-                binding.resultText.setText(
-                        getString(R.string.tu_edad_format, modelo.getEdadHumana()));
                 break;
             case VACIO:
                 mostrarError(getString(R.string.error_vacio));
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarError(String mensaje) {
         binding.ageInput.setError(mensaje);   // 1. Mensaje en el EditText
         binding.ageInput.requestFocus();      // 2. Foco en el EditText
-        binding.resultText.setText("");       // 3. Borramos el resultado anterior
+        // El resultado anterior ya no hay que borrarlo: el modelo lo pone a 0 y
+        // la vista lo oculta sola
     }
 }

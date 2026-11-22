@@ -1,9 +1,17 @@
 package es.davante.edadcanina.modelo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import androidx.databinding.Observable;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import es.davante.edadcanina.BR;
 
 /**
  * Pruebas del modelo. Se ejecutan en el ordenador, sin emulador, porque el modelo
@@ -140,5 +148,61 @@ public class EdadCaninaModeloTest {
         modelo.setEdadTexto(null);
         assertEquals("", modelo.getEdadTexto());
         assertEquals(Validacion.VACIO, modelo.calcular());
+    }
+
+    // ---- Avisos del modelo (lo que hace que la vista se repinte sola) ----
+
+    // Guarda los números BR de todas las propiedades de las que avisa el modelo
+    private List<Integer> escucharAvisos() {
+        final List<Integer> avisos = new ArrayList<>();
+        modelo.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                avisos.add(propertyId);
+            }
+        });
+        return avisos;
+    }
+
+    @Test
+    public void calcular_avisaDeLaEdadYDeLaValidacion() {
+        modelo.setEdadTexto("6");
+        List<Integer> avisos = escucharAvisos();
+
+        modelo.calcular();
+
+        assertTrue(avisos.contains(BR.edadHumana));
+        assertTrue(avisos.contains(BR.validacion));
+    }
+
+    @Test
+    public void cambiarElTexto_avisaDelTexto() {
+        List<Integer> avisos = escucharAvisos();
+
+        modelo.setEdadTexto("6");
+
+        assertTrue(avisos.contains(BR.edadTexto));
+    }
+
+    @Test
+    public void mismoTexto_noAvisaDeNada() {
+        // Esto es lo que corta el viaje de ida y vuelta del enlace en dos sentidos
+        modelo.setEdadTexto("6");
+        List<Integer> avisos = escucharAvisos();
+
+        modelo.setEdadTexto("6");
+
+        assertTrue(avisos.isEmpty());
+    }
+
+    @Test
+    public void calcularDosVecesLoMismo_soloAvisaLaPrimera() {
+        modelo.setEdadTexto("6");
+        modelo.calcular();
+        List<Integer> avisos = escucharAvisos();
+
+        modelo.calcular(); // sale lo mismo: ni la edad ni la validación cambian
+
+        assertTrue(avisos.isEmpty());
     }
 }
